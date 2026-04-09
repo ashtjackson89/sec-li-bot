@@ -4,9 +4,76 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SEC LI BOT</title>
+    <script>
+      (function () {
+        function showBootError(title, detail) {
+          var existing = document.getElementById("boot-error");
+          if (existing) existing.remove();
+
+          var panel = document.createElement("div");
+          panel.id = "boot-error";
+          panel.style.position = "fixed";
+          panel.style.inset = "16px";
+          panel.style.zIndex = "999999";
+          panel.style.background = "#fff4f2";
+          panel.style.color = "#2a0d09";
+          panel.style.border = "3px solid #d05f4f";
+          panel.style.borderRadius = "16px";
+          panel.style.padding = "20px";
+          panel.style.fontFamily = "Consolas, monospace";
+          panel.style.whiteSpace = "pre-wrap";
+          panel.style.overflow = "auto";
+          panel.innerHTML =
+            "<strong style='display:block;font-size:18px;margin-bottom:10px;'>" +
+            title +
+            "</strong>" +
+            detail;
+          document.body.appendChild(panel);
+        }
+
+        window.addEventListener("error", function (event) {
+          var detail =
+            (event.message || "Unknown error") +
+            "\n\n" +
+            (event.filename || "no-file") +
+            ":" +
+            (event.lineno || 0) +
+            ":" +
+            (event.colno || 0);
+          showBootError("SEC LI BOT boot error", detail);
+        });
+
+        window.addEventListener("unhandledrejection", function (event) {
+          var reason = event.reason;
+          var detail =
+            typeof reason === "string"
+              ? reason
+              : reason && reason.stack
+                ? reason.stack
+                : JSON.stringify(reason, null, 2);
+          showBootError("SEC LI BOT promise rejection", detail || "Unknown promise rejection");
+        });
+      })();
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div style="min-height:100vh;padding:24px;background:#07111a;color:#dce8f2;font-family:Segoe UI,Arial,sans-serif;">
+        <div style="max-width:720px;margin:0 auto;">
+          <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:#8fa9bf;margin-bottom:12px;">Strategic Edge Consulting</div>
+          <h1 style="margin:0 0 12px;font-size:32px;line-height:1.1;">SEC LI BOT is loading...</h1>
+          <p style="margin:0;color:#b7c8d8;line-height:1.6;">
+            If this message stays on screen, the browser is not running the React app yet. Try a hard refresh,
+            or open this URL in a normal Chrome or Edge tab instead of an embedded app view.
+          </p>
+        </div>
+      </div>
+    </div>
+    <noscript>
+      <div style="padding:16px;background:#3a1414;color:#ffe2de;font-family:Segoe UI,Arial,sans-serif;">
+        JavaScript is required to run SEC LI BOT.
+      </div>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
   </html>
